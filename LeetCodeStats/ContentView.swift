@@ -1,24 +1,13 @@
-//
-//  ContentView.swift
-//  LeetCodeStats
-//
-//  Created by Ovais on 31/07/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        DashboardView()
+            .frame(minWidth: 400, minHeight: 600)
     }
 }
 
 #Preview {
     ContentView()
 }
+

@@ -35,16 +35,6 @@
 			path = LeetCodeStats;
 			sourceTree = "<group>";
 		};
-		DB318CE42E3B20AC005DF200 /* LeetCodeStatsTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LeetCodeStatsTests;
-			sourceTree = "<group>";
-		};
-		DB318CEE2E3B20AC005DF200 /* LeetCodeStatsUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LeetCodeStatsUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				DB318CD52E3B20AB005DF200 /* LeetCodeStats */,
-				DB318CE42E3B20AC005DF200 /* LeetCodeStatsTests */,
-				DB318CEE2E3B20AC005DF200 /* LeetCodeStatsUITests */,
 				DB318CD42E3B20AB005DF200 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				DB318CE32E3B20AC005DF200 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				DB318CE42E3B20AC005DF200 /* LeetCodeStatsTests */,
-			);
 			name = LeetCodeStatsTests;
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				DB318CED2E3B20AC005DF200 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				DB318CEE2E3B20AC005DF200 /* LeetCodeStatsUITests */,
 			);
 			name = LeetCodeStatsUITests;
 			packageProductDependencies = (
@@ -195,6 +177,9 @@
 			);
 			mainGroup = DB318CCA2E3B20AB005DF200;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DB318D192E3B2B77005DF200 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DB318CD42E3B20AB005DF200 /* Products */;
 			projectDirPath = "";
@@ -398,6 +383,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LeetCodeStats/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -423,6 +410,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LeetCodeStats/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -541,6 +530,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DB318D192E3B2B77005DF200 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = DB318CCB2E3B20AB005DF200 /* Project object */;
 }
