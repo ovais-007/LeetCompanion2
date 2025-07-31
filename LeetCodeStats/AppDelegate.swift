@@ -5,6 +5,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     var popover = NSPopover()
 
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
         print("AppDelegate launched")
 
