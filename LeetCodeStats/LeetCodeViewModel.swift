@@ -67,43 +67,43 @@ final class LeetCodeViewModel: ObservableObject {
             today = daily
             scheduleNotification(for: contest)
         } catch {
-            print("LeetCode fetch error:", error)
+            //print("LeetCode fetch error:", error)
             username = "(error - check console)"
         }
     }
 
     private func obtainCookie() -> String? {
-        print("🔍 Starting cookie search...")
+        //print("🔍 Starting cookie search...")
 
         if let c = Keychain.read() {
-            print("✅ Found cookie in Keychain: \(c.prefix(20))...")
+            //print("✅ Found cookie in Keychain: \(c.prefix(20))...")
             return c
         }
 
         if let c = browserCookie() {
-            print("✅ Found cookie in browser: \(c.prefix(20))...")
+            //print("✅ Found cookie in browser: \(c.prefix(20))...")
             Keychain.save(token: c)
             return c
         }
 
-        print("🔍 Prompting for cookie...")
+        //print("🔍 Prompting for cookie...")
         var token: String? = nil
         Task { token = await promptForCookie() }
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
 
         if let token = token {
-            print("✅ Got token from manual prompt: \(token.prefix(20))...")
+            //print("✅ Got token from manual prompt: \(token.prefix(20))...")
             return token
         }
 
-        print("❌ No token from manual prompt")
+        //print("❌ No token from manual prompt")
         return nil
     }
 
     private func browserCookie() -> String? {
         let url = URL(string: "https://leetcode.com")!
         let cookies = HTTPCookieStorage.shared.cookies(for: url) ?? []
-        print("🍪 Total cookies for leetcode.com: \(cookies.count)")
+        //print("🍪 Total cookies for leetcode.com: \(cookies.count)")
         return cookies.first(where: { $0.name == "LEETCODE_SESSION" })?.value
     }
 }
@@ -176,14 +176,14 @@ private extension LeetCodeViewModel {
         let (data, response) = try await session.data(for: req)
 
         if let httpResponse = response as? HTTPURLResponse {
-            print("🔍 HTTP Status Code: \(httpResponse.statusCode)")
+            //print("🔍 HTTP Status Code: \(httpResponse.statusCode)")
             if httpResponse.statusCode != 200 {
                 throw APIError(description: "HTTP \(httpResponse.statusCode)", statusCode: httpResponse.statusCode)
             }
         }
 
         if let responseString = String( data:data, encoding: .utf8) {
-            print("🔍 Raw API Response:", responseString.prefix(500))
+            //print("🔍 Raw API Response:", responseString.prefix(500))
             if responseString.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("<") {
                 throw AuthenticationError(description: "Received HTML instead of JSON — login cookie likely expired")
             }

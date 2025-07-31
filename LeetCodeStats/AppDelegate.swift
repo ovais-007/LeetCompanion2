@@ -7,7 +7,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        print("AppDelegate launched")
+        //print("AppDelegate launched")
 
         // 🚫 Removes Dock icon
         NSApp.setActivationPolicy(.accessory)
@@ -33,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func togglePopover(_ sender: Any?) {
-        print("Menu bar icon clicked") // You SHOULD see this in the console
+        //print("Menu bar icon clicked") // You SHOULD see this in the console
         if let button = statusItem?.button {
             if popover.isShown {
                 popover.performClose(sender)
