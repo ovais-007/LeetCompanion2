@@ -1,6 +1,6 @@
 //
 //  LeetCodeViewModel.swift
-//  LeetCodeStats
+//  LeetCompanion
 //
 
 import Foundation
@@ -13,7 +13,6 @@ struct Contest: Decodable {
     let title: String
     let startTime: Date
 
-    // Manual initializer
     init(title: String, startTime: Date) {
         self.title = title
         self.startTime = startTime
@@ -31,13 +30,13 @@ struct Contest: Decodable {
 struct DailyProblem {
     let title: String
     let url: URL
+    let isSolved: Bool
 }
 
 // MARK: - ViewModel
 
 @MainActor
 final class LeetCodeViewModel: ObservableObject {
-    // Published Values
     @Published var username = "(loading…)"
     @Published var ranking: Int?
     @Published var totalSolved = 0
@@ -47,9 +46,8 @@ final class LeetCodeViewModel: ObservableObject {
     @Published var nextContest: Contest?
     @Published var today: DailyProblem?
 
-    // Entry point
     func load() async {
-        // Keychain.delete() // Uncomment for testing
+        // Keychain.delete() // Uncomment for reset
 
         guard let cookie = obtainCookie() else { return }
 
@@ -142,7 +140,11 @@ private extension LeetCodeViewModel {
 
     struct DailyEnvelope: Decodable {
         struct Active: Decodable {
-            struct Q: Decodable { let title: String; let titleSlug: String }
+            struct Q: Decodable {
+                let title: String
+                let titleSlug: String
+                let status: String? // "AC" if solved
+            }
             let question: Q
         }
         let activeDailyCodingChallengeQuestion: Active
@@ -210,10 +212,14 @@ private extension LeetCodeViewModel {
     }
 
     func fetchDaily(with cookie: String) async throws -> DailyProblem {
-        let gql = #"{"query":"{ activeDailyCodingChallengeQuestion { question { title titleSlug } } }"}"#
+        let gql = #"{"query":"{ activeDailyCodingChallengeQuestion { question { title titleSlug status } } }"}"#
         let result = try await query(DailyEnvelope.self, body: gql, cookie: cookie)
         let q = result.activeDailyCodingChallengeQuestion.question
-        return DailyProblem(title: q.title, url: URL(string: "https://leetcode.com/problems/\(q.titleSlug)")!)
+        return DailyProblem(
+            title: q.title,
+            url: URL(string: "https://leetcode.com/problems/\(q.titleSlug)")!,
+            isSolved: q.status == "ac"
+        )
     }
 }
 
@@ -290,4 +296,5 @@ extension LeetCodeViewModel {
         }
     }
 }
+
 

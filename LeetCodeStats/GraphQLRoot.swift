@@ -10,3 +10,4 @@ struct GraphQLRoot<T: Decodable>: Decodable {
     }
 }
 
+

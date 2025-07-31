@@ -6,7 +6,8 @@ struct DashboardView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                Text("LeetCode Stats")
+                // Header
+                Text("Leet Companion")
                     .font(.largeTitle)
                     .fontWeight(.bold)
 
@@ -20,6 +21,7 @@ struct DashboardView: View {
                         .foregroundColor(.secondary)
                 }
 
+                // Stats Grid
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                     StatsCard(title: "Total", count: viewModel.totalSolved, color: .blue)
                     StatsCard(title: "Easy", count: viewModel.easySolved, color: .green)
@@ -28,26 +30,35 @@ struct DashboardView: View {
                 }
                 .padding(.top)
 
+                // Contest Info
                 if let contest = viewModel.nextContest {
                     ContestCard(contest: contest)
                 }
 
+                // Daily Challenge
                 if let daily = viewModel.today {
                     DailyChallengeCard(problem: daily)
                 }
 
-                Button(action: {
-                    Task { await viewModel.load() }
-                }) {
-                    Label("Refresh", systemImage: "arrow.clockwise")
-                        .font(.headline)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.accentColor.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                // Refresh + Quit Buttons
+                HStack {
+                    Spacer()
+
+                    Button("Quit") {
+                        NSApp.terminate(nil)
+                    }
+                    .foregroundColor(.red)
+
+                    Button {
+                        Task { await viewModel.load() }
+                    } label: {
+                        Label("Refresh", systemImage: "arrow.clockwise")
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
-                .padding(.vertical)
+                .font(.subheadline)
+                .padding(.horizontal)
+                .padding(.bottom)
             }
             .padding()
         }
@@ -97,7 +108,7 @@ struct ContestCard: View {
     let contest: Contest
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             Label("Upcoming Contest", systemImage: "trophy")
                 .font(.headline)
                 .foregroundColor(.secondary)
@@ -123,7 +134,7 @@ struct DailyChallengeCard: View {
     let problem: DailyProblem
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             Label("Today's Challenge", systemImage: "calendar")
                 .font(.headline)
                 .foregroundColor(.secondary)
@@ -132,11 +143,17 @@ struct DailyChallengeCard: View {
                 .font(.title3)
                 .fontWeight(.bold)
 
-            Button("Solve Now") {
-                NSWorkspace.shared.open(problem.url)
+            if problem.isSolved {
+                Label(" You've already solved this!", systemImage: "checkmark.circle.fill")
+                    .foregroundColor(.green)
+                    .font(.subheadline)
+            } else {
+                Button("Solve Now") {
+                    NSWorkspace.shared.open(problem.url)
+                }
+                .foregroundColor(.blue)
+                .font(.subheadline)
             }
-            .foregroundColor(.blue)
-            .font(.subheadline)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -144,4 +161,5 @@ struct DailyChallengeCard: View {
         .cornerRadius(12)
     }
 }
+
 
