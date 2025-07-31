@@ -6,7 +6,6 @@ struct DashboardView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Header
                 Text("LeetCode Stats")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -21,7 +20,6 @@ struct DashboardView: View {
                         .foregroundColor(.secondary)
                 }
 
-                // Stats Grid
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                     StatsCard(title: "Total", count: viewModel.totalSolved, color: .blue)
                     StatsCard(title: "Easy", count: viewModel.easySolved, color: .green)
@@ -30,35 +28,26 @@ struct DashboardView: View {
                 }
                 .padding(.top)
 
-                // Contest Info
                 if let contest = viewModel.nextContest {
                     ContestCard(contest: contest)
                 }
 
-                // Daily Problem Info
                 if let daily = viewModel.today {
                     DailyChallengeCard(problem: daily)
                 }
 
-                // Action Buttons (Refresh + Quit)
-                HStack {
-                    Spacer()
-
-                    Button("Quit") {
-                        NSApp.terminate(nil)
-                    }
-                    .foregroundColor(.red)
-
-                    Button {
-                        Task { await viewModel.load() }
-                    } label: {
-                        Label("Refresh", systemImage: "arrow.clockwise")
-                    }
-                    .buttonStyle(.borderedProminent)
+                Button(action: {
+                    Task { await viewModel.load() }
+                }) {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.accentColor.opacity(0.8))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                 }
-                .font(.subheadline)
-                .padding(.horizontal)
-                .padding(.bottom)
+                .padding(.vertical)
             }
             .padding()
         }
@@ -108,7 +97,7 @@ struct ContestCard: View {
     let contest: Contest
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading) {
             Label("Upcoming Contest", systemImage: "trophy")
                 .font(.headline)
                 .foregroundColor(.secondary)
@@ -134,7 +123,7 @@ struct DailyChallengeCard: View {
     let problem: DailyProblem
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading) {
             Label("Today's Challenge", systemImage: "calendar")
                 .font(.headline)
                 .foregroundColor(.secondary)
